@@ -52,9 +52,14 @@ class DB:
 
         self.db.commit()
 
+    def show_all(self):
+        cursor = self.db.cursor()
+        cont = cursor.execute("select id,content from sentences").fetchall()
+        return cont
+
 
 if __name__ == "__main__":
-    db = DB("korean.db")
+    db = DB("./db/korean.db")
 
     for i,pth in enumerate(Config["path"].values()):
         book = []
