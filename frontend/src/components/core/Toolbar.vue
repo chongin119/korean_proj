@@ -235,6 +235,12 @@ export default {
             class: 'btnAbout'
           },
           {
+            title: this.$t('QUERY'),
+            link: 'query',
+            icon: 'mdi-home',
+            class: 'btnHome'
+          },
+          {
             title: this.$t('menuItems.MY_PROFILE'),
             link: 'profile',
             icon: 'mdi-face',
@@ -253,6 +259,12 @@ export default {
           link: 'about',
           icon: 'mdi-help-circle-outline',
           class: 'btnAbout'
+        },
+        {
+          title: this.$t('menuItems.QUERY'),
+          link: 'query',
+          icon: 'mdi-home',
+          class: 'btnHome'
         },
         {
           title: this.$t('menuItems.LOGIN'),
