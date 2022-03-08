@@ -61,3 +61,5 @@ if __name__ == "__main__":
         with open(pth,'r',encoding="utf-16") as f:
             book = f.read().splitlines()
             db.insert(book)
+
+    del db
