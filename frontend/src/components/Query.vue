@@ -14,6 +14,7 @@
           :per-page="perPage"
           :items="posts"
           :current-page="currentPage"
+          :filter="filter"
         >
         </b-table>
         <b-pagination
@@ -42,7 +43,8 @@ export default {
       filter: "",
       perPage: 1,
       currentPage: 1,
-      posts: [
+      posts:[],
+      /*posts: [
         {
           userId: 1,
           id: 1,
@@ -59,8 +61,14 @@ export default {
           id: 3,
           title: "ea molestias quasi exercitationem repellat qui ipsa sit aut",
         },
-      ],
+      ],*/
     }
+  },
+  mounted() {
+    this.axios.get('http://localhost:3000/resulting').then(res => {
+        this.posts = res.data
+    })
+
   },
   computed: {
     rows() {
@@ -70,3 +78,14 @@ export default {
 }
 
 </script>
+
+<style>
+#app {
+  width: 95%;
+  margin-top: 50px; 
+}
+
+
+.VuePagination {
+  text-align: center;
+}

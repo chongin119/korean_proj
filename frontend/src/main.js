@@ -12,6 +12,11 @@ import VuetifyConfirm from 'vuetify-confirm'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 
