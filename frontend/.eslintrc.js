@@ -35,7 +35,7 @@ module.exports = {
     'handle-callback-err': ['error'],
     'arrow-body-style': ['off', 2],
     indent: ['off', 2],
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': ['off', 'windows'],
     'no-dupe-keys': ['error'],
     'no-duplicate-case': ['error'],
     'no-extra-semi': ['warn'],
@@ -92,9 +92,7 @@ module.exports = {
     ],
     'semi-style': ['warn', 'last'],
     'space-before-function-paren': ['off', 2],
-    'prettier/prettier': ['error', {
-      'endOfLine': 'auto',
-    }]
+    'prettier/prettier': 0
   },
   parserOptions: {
     parser: 'babel-eslint'

@@ -1,15 +1,31 @@
 <template>
-  <v-container fluid>
-    <v-layout row wrap>
-      <Heading :title="$t('about.TITLE')" />
-      <Description :description="$t('about.DESCRIPTION')" />
-    </v-layout>
+  <div id="app" class="container">
+    <b-row class="mb-3">
+      <b-col md="3">
+        <b-form-input v-model="filter" type="search" id="filterInput" placeholder="Type to Search"></b-form-input>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-table
+          striped
+          hover
+          outlined
+          :per-page="perPage"
+          :items="posts"
+          :current-page="currentPage"
+        >
+        </b-table>
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+      </b-col>
+    </b-row>
+  </div>
 
-    <div>
-      <code>query: {{ query }}</code>
-      <datatable v-bind="$data" />
-    </div>
-  </v-container>
 </template>
 
 <script>
@@ -20,28 +36,37 @@ export default {
       titleTemplate: `${this.$t('about.TITLE')} - %s`
     }
   },
-  data: () => ({
-    columns: [
-      { title: 'User ID', field: 'uid', sortable: true },
-      { title: 'Username', field: 'name' },
-      { title: 'Age', field: 'age', sortable: true },
-      { title: 'Email', field: 'email' },
-      { title: 'Country', field: 'country' }
-    ],
-    data: [],
-    total: 0,
-    query: {}
-  }),
-  watch: {
-    /* query: {
-      handler (query) {
-        mockData(query).then(({ rows, total }) => {
-          this.data = rows
-          this.total = total
-        })
-      },
-      deep: true
-    } */
+  name: "App",
+  data() {
+    return {
+      filter: "",
+      perPage: 1,
+      currentPage: 1,
+      posts: [
+        {
+          userId: 1,
+          id: 1,
+          title:
+            "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+        },
+        {
+          userId: 1,
+          id: 2,
+          title: "qui est esse",
+        },
+        {
+          userId: 1,
+          id: 3,
+          title: "ea molestias quasi exercitationem repellat qui ipsa sit aut",
+        },
+      ],
+    }
+  },
+  computed: {
+    rows() {
+      return this.posts.length
+    },
   }
 }
+
 </script>

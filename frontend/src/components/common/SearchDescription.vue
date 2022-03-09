@@ -1,8 +1,14 @@
 <template>
   <div>
-    <p><code>query: {{ query }}</code></p>
+    <p>
+      <code>query: {{ query }}</code>
+    </p>
     <datatable v-bind="$data">
-      <button class="btn btn-default" @click="alertSelectedUids" :disabled="!selection.length">
+      <button
+        class="btn btn-default"
+        @click="alertSelectedUids"
+        :disabled="!selection.length"
+      >
         <i class="fa fa-commenting-o"></i>
         Alert selected uid(s)
       </button>
@@ -18,7 +24,7 @@ export default {
   components,
   name: 'FriendsTable', // `name` is required as a recursive component
   props: ['row'], // from the parent FriendsTable (if exists)
-  data () {
+  data() {
     const amINestedComp = !!this.row
 
     return {
@@ -29,16 +35,68 @@ export default {
       pageSizeOptions: [5, 10, 15, 20],
       columns: (() => {
         const cols = [
-          { title: 'UID', field: 'uid', label: 'User ID', sortable: true, visible: 'true' },
-          { title: 'Email', field: 'email', visible: false, thComp: 'FilterTh', tdComp: 'Email' },
-          { title: 'Username', field: 'name', thComp: 'FilterTh', tdStyle: { fontStyle: 'italic' } },
-          { title: 'Country', field: 'country', thComp: 'FilterTh', thStyle: { fontWeight: 'normal' } },
+          {
+            title: 'UID',
+            field: 'uid',
+            label: 'User ID',
+            sortable: true,
+            visible: 'true'
+          },
+          {
+            title: 'Email',
+            field: 'email',
+            visible: false,
+            thComp: 'FilterTh',
+            tdComp: 'Email'
+          },
+          {
+            title: 'Username',
+            field: 'name',
+            thComp: 'FilterTh',
+            tdStyle: { fontStyle: 'italic' }
+          },
+          {
+            title: 'Country',
+            field: 'country',
+            thComp: 'FilterTh',
+            thStyle: { fontWeight: 'normal' }
+          },
           { title: 'IP', field: 'ip', visible: false, tdComp: 'IP' },
-          { title: 'Age', field: 'age', sortable: true, thClass: 'text-info', tdClass: 'text-success' },
-          { title: 'Create time', field: 'createTime', sortable: true, colClass: 'w-240', thComp: 'CreatetimeTh', tdComp: 'CreatetimeTd' },
-          { title: 'Color', field: 'color', explain: 'Favorite color', visible: false, tdComp: 'Color' },
-          { title: 'Language', field: 'lang', visible: false, thComp: 'FilterTh' },
-          { title: 'PL', field: 'programLang', explain: 'Programming Language', visible: false, thComp: 'FilterTh' },
+          {
+            title: 'Age',
+            field: 'age',
+            sortable: true,
+            thClass: 'text-info',
+            tdClass: 'text-success'
+          },
+          {
+            title: 'Create time',
+            field: 'createTime',
+            sortable: true,
+            colClass: 'w-240',
+            thComp: 'CreatetimeTh',
+            tdComp: 'CreatetimeTd'
+          },
+          {
+            title: 'Color',
+            field: 'color',
+            explain: 'Favorite color',
+            visible: false,
+            tdComp: 'Color'
+          },
+          {
+            title: 'Language',
+            field: 'lang',
+            visible: false,
+            thComp: 'FilterTh'
+          },
+          {
+            title: 'PL',
+            field: 'programLang',
+            explain: 'Programming Language',
+            visible: false,
+            thComp: 'FilterTh'
+          },
           { title: 'Operation', tdComp: 'Opt', visible: 'true' }
         ]
         const groupsDef = {
@@ -46,8 +104,8 @@ export default {
           Sortable: ['UID', 'Age', 'Create time'],
           Extra: ['Operation', 'Color', 'Language', 'PL']
         }
-        return cols.map(col => {
-          Object.keys(groupsDef).forEach(groupName => {
+        return cols.map((col) => {
+          Object.keys(groupsDef).forEach((groupName) => {
             if (groupsDef[groupName].includes(col.title)) {
               col.group = groupName
             }
@@ -73,21 +131,21 @@ export default {
   },
   watch: {
     query: {
-      handler () {
+      handler() {
         this.handleQueryChange()
       },
       deep: true
     }
   },
   methods: {
-    handleQueryChange () {
+    handleQueryChange() {
       mockData(this.query).then(({ rows, total, summary }) => {
         this.data = rows
         this.total = total
         this.summary = summary
       })
     },
-    alertSelectedUids () {
+    alertSelectedUids() {
       alert(this.selection.map(({ uid }) => uid))
     }
   }
