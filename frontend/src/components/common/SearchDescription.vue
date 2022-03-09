@@ -1,82 +1,100 @@
 <template>
   <div>
-    <v-flex xs12 text-xs-center mt-5 mb-5>
-      {{ $t('landing.BUY_ME_A_COFFEE_DESCRIPTION') }}
-      <br />
-      <br />
-      <a
-        class="bmc-button"
-        target="_blank"
-        href="https://www.buymeacoffee.com/muGHf41NT"
-      >
-        <img
-          src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg"
-          :alt="$t('landing.BUY_ME_A_COFFEE')"
-        />
-        <span style="margin-left: 5px">{{
-          $t('landing.BUY_ME_A_COFFEE')
-        }}</span>
-      </a>
-    </v-flex>
-
-    <v-flex xs12 text-xs-center mb-5>
-      {{ $t('landing.DESCRIPTION_VUE') }}
-      <br />
-      <br />
-      {{ $t('landing.FRONTEND_DOCUMENTATION') }}:
-      <a href="https://github.com/davellanedam/vue-skeleton-mvp"
-        >https://github.com/davellanedam/vue-skeleton-mvp</a
-      >
-    </v-flex>
-    <v-flex xs12>
-      {{ $t('landing.DESCRIPTION_API') }}
-      <br />
-      <br />
-      {{ $t('landing.API_DOCUMENTATION') }}:
-      <a
-        href="https://github.com/davellanedam/node-express-mongodb-jwt-rest-api-skeleton"
-        >https://github.com/davellanedam/node-express-mongodb-jwt-rest-api-skeleton</a
-      >
-    </v-flex>
+    <p><code>query: {{ query }}</code></p>
+    <datatable v-bind="$data">
+      <button class="btn btn-default" @click="alertSelectedUids" :disabled="!selection.length">
+        <i class="fa fa-commenting-o"></i>
+        Alert selected uid(s)
+      </button>
+    </datatable>
   </div>
 </template>
-
 <script>
+import Vue from 'vue'
+import mockData from '../_mockData'
+import components from './comps/'
+
 export default {
-  name: 'SearchDescription'
+  components,
+  name: 'FriendsTable', // `name` is required as a recursive component
+  props: ['row'], // from the parent FriendsTable (if exists)
+  data () {
+    const amINestedComp = !!this.row
+
+    return {
+      supportBackup: true,
+      supportNested: true,
+      tblClass: 'table-bordered',
+      tblStyle: 'color: #666',
+      pageSizeOptions: [5, 10, 15, 20],
+      columns: (() => {
+        const cols = [
+          { title: 'UID', field: 'uid', label: 'User ID', sortable: true, visible: 'true' },
+          { title: 'Email', field: 'email', visible: false, thComp: 'FilterTh', tdComp: 'Email' },
+          { title: 'Username', field: 'name', thComp: 'FilterTh', tdStyle: { fontStyle: 'italic' } },
+          { title: 'Country', field: 'country', thComp: 'FilterTh', thStyle: { fontWeight: 'normal' } },
+          { title: 'IP', field: 'ip', visible: false, tdComp: 'IP' },
+          { title: 'Age', field: 'age', sortable: true, thClass: 'text-info', tdClass: 'text-success' },
+          { title: 'Create time', field: 'createTime', sortable: true, colClass: 'w-240', thComp: 'CreatetimeTh', tdComp: 'CreatetimeTd' },
+          { title: 'Color', field: 'color', explain: 'Favorite color', visible: false, tdComp: 'Color' },
+          { title: 'Language', field: 'lang', visible: false, thComp: 'FilterTh' },
+          { title: 'PL', field: 'programLang', explain: 'Programming Language', visible: false, thComp: 'FilterTh' },
+          { title: 'Operation', tdComp: 'Opt', visible: 'true' }
+        ]
+        const groupsDef = {
+          Normal: ['Email', 'Username', 'Country', 'IP'],
+          Sortable: ['UID', 'Age', 'Create time'],
+          Extra: ['Operation', 'Color', 'Language', 'PL']
+        }
+        return cols.map(col => {
+          Object.keys(groupsDef).forEach(groupName => {
+            if (groupsDef[groupName].includes(col.title)) {
+              col.group = groupName
+            }
+          })
+          return col
+        })
+      })(),
+      data: [],
+      total: 0,
+      selection: [],
+      summary: {},
+
+      // `query` will be initialized to `{ limit: 10, offset: 0, sort: '', order: '' }` by default
+      // other query conditions should be either declared explicitly in the following or set with `Vue.set / $vm.$set` manually later
+      // otherwise, the new added properties would not be reactive
+      query: amINestedComp ? { uid: this.row.friends } : {},
+
+      // any other staff that you want to pass to dynamic components (thComp / tdComp / nested components)
+      xprops: {
+        eventbus: new Vue()
+      }
+    }
+  },
+  watch: {
+    query: {
+      handler () {
+        this.handleQueryChange()
+      },
+      deep: true
+    }
+  },
+  methods: {
+    handleQueryChange () {
+      mockData(this.query).then(({ rows, total, summary }) => {
+        this.data = rows
+        this.total = total
+        this.summary = summary
+      })
+    },
+    alertSelectedUids () {
+      alert(this.selection.map(({ uid }) => uid))
+    }
+  }
 }
 </script>
-
 <style>
-@import url('https://fonts.googleapis.com/css?family=Cookie');
-
-.bmc-button img {
-  width: 27px !important;
-  margin-bottom: 1px !important;
-  box-shadow: none !important;
-  border: none !important;
-  vertical-align: middle !important;
-}
-.bmc-button {
-  line-height: 36px !important;
-  height: 37px !important;
-  text-decoration: none !important;
-  display: inline-flex !important;
-  color: #ffffff !important;
-  background-color: #ff813f !important;
-  border-radius: 3px !important;
-  border: 1px solid transparent !important;
-  padding: 1px 9px !important;
-  font-size: 22px !important;
-  letter-spacing: 0.6px !important;
-  margin: 0 auto !important;
-  font-family: 'Cookie', cursive !important;
-  -webkit-box-sizing: border-box !important;
-  box-sizing: border-box !important;
-  -o-transition: 0.3s all linear !important;
-  -webkit-transition: 0.3s all linear !important;
-  -moz-transition: 0.3s all linear !important;
-  -ms-transition: 0.3s all linear !important;
-  transition: 0.3s all linear !important;
+.w-240 {
+  width: 240px;
 }
 </style>

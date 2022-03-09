@@ -10,6 +10,10 @@ import router from '@/router'
 import { store } from '@/store'
 import VuetifyConfirm from 'vuetify-confirm'
 
+import Datatable from 'vue2-datatable-component'
+
+Vue.use(Datatable) // done!
+
 Vue.config.productionTip = false
 Vue.use(VuetifyConfirm, { vuetify })
 

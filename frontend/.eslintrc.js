@@ -92,7 +92,9 @@ module.exports = {
     ],
     'semi-style': ['warn', 'last'],
     'space-before-function-paren': ['off', 2],
-    'prettier/prettier': 'error'
+    'prettier/prettier': ['error', {
+      'endOfLine': 'auto',
+    }]
   },
   parserOptions: {
     parser: 'babel-eslint'
