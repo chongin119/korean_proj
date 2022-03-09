@@ -16,7 +16,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios)
+Vue.use(axios)
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 

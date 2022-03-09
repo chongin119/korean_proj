@@ -44,7 +44,7 @@ export default {
       perPage: 1,
       currentPage: 1,
       posts:[],
-      /*posts: [
+      /* posts: [
         {
           userId: 1,
           id: 1,
@@ -66,6 +66,7 @@ export default {
   },
   mounted() {
     this.axios.get('http://localhost:3000/resulting').then(res => {
+      console.log(res)
         this.posts = res.data
     })
 
