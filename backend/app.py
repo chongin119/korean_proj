@@ -17,12 +17,15 @@ def matching():
 def resulting():
     db = DB(db_name)
     cont = db.show_all()
-    cont_dic = {}
+    req_list = []
     for i in cont:
-        cont_dic[i[0]] = i[1]
+        cont_dic = {}
+        cont_dic['id'] = i[0]
+        cont_dic['cont'] = i[1]
+        req_list.append(cont_dic)
     del db
 
-    return jsonify(cont_dic)
+    return jsonify(req_list)
 
 if __name__ == '__main__':
     db_name = "./db/korean.db"
