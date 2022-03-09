@@ -1,7 +1,9 @@
 from flask import Flask,render_template,jsonify
+from flask_cors import CORS
 from backend.db_control import DB
 
 app = Flask(__name__)
+CORS(app,resources={r'/*' : {'origin' : '*'}})
 
 @app.route('/')
 def index():
